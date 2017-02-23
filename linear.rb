@@ -5,9 +5,15 @@ class Linear < Node
     super([inputs, weights, bias])
   end
 
-  # $ output = \sum_{i} x_{i} y_{i} + b $
+  # $ output = \sum_{i} x_{i} w_{i} + b $
   def forward
-    inputs, weights, bias = self.inbound_nodes.map(&:value)
-    self.value = inputs.zip(weights).reduce(0) { |r, (a, b)| r + a * b } + bias
+    _X, _W, _b = self.inbound_nodes.map(&:value)
+
+    dot = _X * _W
+    biases_broadcast = Matrix.build(dot.row_count, dot.column_count) do |row, column|
+      _b[0, column]
+    end
+
+    self.value = _X * _W + biases_broadcast
   end
 end

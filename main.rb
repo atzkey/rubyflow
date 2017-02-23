@@ -1,3 +1,5 @@
+require 'matrix'
+
 require 'rubyflow'
 
 require 'test/unit/assertions'
@@ -15,19 +17,19 @@ def test_basic
 end
 
 def test_linear
-  inputs, weights, bias = Input.new, Input.new, Input.new
+  _X, _W, _b = Input.new, Input.new, Input.new
 
-  f = Linear.new(inputs, weights, bias)
+  f = Linear.new(_X, _W, _b)
 
-  feed_dict = {
-    inputs => [6, 14, 3],
-    weights => [0.5, 0.25, 1.4],
-    bias => 2
-  }
+  xm = Matrix[[-1.0, -2.0], [-1, -2]]
+  wm = Matrix[[2.0, -3], [2.0, -3]]
+  bv = Matrix[[-3.0, -5]]
+
+  feed_dict = {_X => xm, _W => wm, _b => bv}
 
   graph = topological_sort(feed_dict)
 
-  assert(12.7 == forward_pass(f, graph))
+  assert(Matrix[[-9.0, 4.0], [-9.0, 4]] == forward_pass(f, graph))
 end
 
 test_basic
