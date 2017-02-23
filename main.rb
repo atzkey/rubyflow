@@ -1,9 +1,4 @@
 require 'rubyflow'
-require 'input'
-require 'node'
-require 'add'
-require 'mul'
-require 'linear'
 
 require 'test/unit/assertions'
 include Test::Unit::Assertions

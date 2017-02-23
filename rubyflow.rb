@@ -1,6 +1,13 @@
 require 'set'
 require 'yaml'
 
+require 'input'
+require 'node'
+require 'add'
+require 'mul'
+require 'linear'
+
+
 class Set
   def pop
     x = self.first
