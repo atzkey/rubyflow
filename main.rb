@@ -12,8 +12,9 @@ def test_basic
   feed_dict = {w => 1, x => 2, y => 3, z => 4}
 
   graph = topological_sort(feed_dict)
+  forward_pass(graph)
 
-  assert(48 == forward_pass(f, graph))
+  assert_equal(48, f.value)
 end
 
 def test_linear
@@ -28,8 +29,9 @@ def test_linear
   feed_dict = {_X => xm, _W => wm, _b => bv}
 
   graph = topological_sort(feed_dict)
+  forward_pass(graph)
 
-  assert(Matrix[[-9.0, 4.0], [-9.0, 4]] == forward_pass(f, graph))
+  assert_equal(Matrix[[-9.0, 4.0], [-9.0, 4]], f.value)
 end
 
 def test_sigmoid
@@ -45,10 +47,11 @@ def test_sigmoid
   feed_dict = {_X => xm, _W => wm, _b => bv}
 
   graph = topological_sort(feed_dict)
+  forward_pass(graph)
 
   assert_equal(Matrix[
     [1.234e-4, 9.820138e-1],
-    [1.234e-4, 9.820138e-1]], forward_pass(g, graph).map {|x| x.round(7)})
+    [1.234e-4, 9.820138e-1]], g.value.map {|x| x.round(7)})
 end
 
 test_basic

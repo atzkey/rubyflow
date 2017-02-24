@@ -73,13 +73,8 @@ end
 #
 # Arguments:
 #
-#        `output_node`: A node in the graph, should be the output node (have no outgoing edges).
 #        `sorted_nodes`: A topologically sorted list of nodes.
 #
-#    Returns the output Node's value
-#
-def forward_pass(output_node, sorted_nodes)
+def forward_pass(sorted_nodes)
     sorted_nodes.each(&:forward)
-
-    return output_node.value
 end
