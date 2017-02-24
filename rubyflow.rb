@@ -7,12 +7,19 @@ require 'add'
 require 'mul'
 require 'linear'
 require 'sigmoid'
+require 'mse'
 
 class Set
   def pop
     x = self.first
     self.delete(x)
     x
+  end
+end
+
+class Array
+  def mean
+    reduce(&:+) / size
   end
 end
 

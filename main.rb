@@ -54,6 +54,23 @@ def test_sigmoid
     [1.234e-4, 9.820138e-1]], g.value.map {|x| x.round(7)})
 end
 
+def test_mse
+  y, a = Input.new, Input.new
+  cost = MSE.new(y, a)
+
+  y_ = Matrix[[1, 2, 3]]
+  a_ = Matrix[[4.5, 5, 10]]
+
+  feed_dict = {y => y_, a => a_}
+
+  graph = topological_sort(feed_dict)
+
+  forward_pass(graph)
+
+  assert_equal(23.416667, cost.value.round(6))
+end
+
 test_basic
 test_linear
 test_sigmoid
+test_mse
