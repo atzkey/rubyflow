@@ -6,6 +6,7 @@ require 'node'
 require 'add'
 require 'mul'
 require 'linear'
+require 'sigmoid'
 
 class Set
   def pop
