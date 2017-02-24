@@ -9,11 +9,11 @@ class Linear < Node
   def forward
     _X, _W, _b = self.inbound_nodes.map(&:value)
 
-    dot = _X * _W
-    biases_broadcast = Matrix.build(dot.row_count, dot.column_count) do |row, column|
+   _X_W = _X * _W
+    biases_broadcast = Matrix.build(_X_W.row_count, _X_W.column_count) do |row, column|
       _b[0, column]
     end
 
-    self.value = _X * _W + biases_broadcast
+    self.value = _X_W + biases_broadcast
   end
 end
