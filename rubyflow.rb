@@ -7,7 +7,6 @@ require 'add'
 require 'mul'
 require 'linear'
 
-
 class Set
   def pop
     x = self.first
@@ -40,6 +39,7 @@ def topological_sort(feed)
 
       g[n][:out] << m
       g[m][:in] << n
+      nodes << m
     end
   end
 
