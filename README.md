@@ -1,4 +1,4 @@
-# RubyFlow - a minimalist toy neural network
+# RubyFlow - a minimalist toy neural network library
 
 :egg: :hatching_chick: :hatched_chick:
 
