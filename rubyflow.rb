@@ -85,3 +85,12 @@ end
 def forward_pass(sorted_nodes)
     sorted_nodes.each(&:forward)
 end
+
+def backward_pass(sorted_nodes)
+  sorted_nodes.reverse.each(&:backward)
+end
+
+def forward_and_backward_pass(sorted_nodes)
+  forward_pass(sorted_nodes)
+  backward_pass(sorted_nodes)
+end

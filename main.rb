@@ -1,9 +1,15 @@
+require 'pry'
 require 'matrix'
 
 require 'rubyflow'
 
 require 'test/unit/assertions'
 include Test::Unit::Assertions
+
+def assert_almost_equal(x, y, epsilon = 1e-5)
+  assert (x - y).all? { |x| x.abs < epsilon }
+end
+
 
 def test_basic
   w, x, y, z = Input.new, Input.new, Input.new, Input.new
@@ -49,9 +55,9 @@ def test_sigmoid
   graph = topological_sort(feed_dict)
   forward_pass(graph)
 
-  assert_equal(Matrix[
+  assert_almost_equal(Matrix[
     [1.234e-4, 9.820138e-1]
-  ], g.value.map {|x| x.round(7)})
+  ], g.value)
 end
 
 def test_mse
@@ -70,7 +76,33 @@ def test_mse
   assert_equal(23.416667, cost.value.round(6))
 end
 
+
+def test_backpropagation
+  _X, _W, _b = Input.new, Input.new, Input.new
+  _y = Input.new
+
+  f = Linear.new(_X, _W, _b)
+  a = Sigmoid.new(f)
+  cost = MSE.new(_y, a)
+
+  xm = Matrix[[-1.0, -2.0], [-1.0, -2.0]]
+  wm = Matrix[[2.0], [3.0]]
+  bv = Matrix[[-3.0], [-3.0]]
+  yv = Matrix[[1, 2]]
+
+  feed_dict = {_X => xm, _W => wm, _b => bv, _y => yv}
+
+  graph = topological_sort(feed_dict)
+  forward_and_backward_pass(graph)
+
+  assert_almost_equal(Matrix[
+    [ -3.34017280e-05,  -5.01025919e-05],
+    [ -6.68040138e-05,  -1.00206021e-04]],
+    _X.gradients[_X])
+end
+
 test_basic
 test_linear
 test_sigmoid
 test_mse
+test_backpropagation

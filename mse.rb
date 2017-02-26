@@ -10,6 +10,14 @@ class MSE < Node
     ys = self.inbound_nodes[0].value.each(:all)
     as = self.inbound_nodes[1].value.each(:all)
 
-    self.value = ys.zip(as).map { |y, a| (y - a)**2 }.mean
+    @diff = ys.zip(as).map { |y, a| y - a }
+    @size = @diff.size
+
+    @value = @diff.map { |x| x**2 }.mean
+  end
+
+  def backward
+    @gradients[inbound_nodes.first] = Matrix[@diff.map { |x| (2 / @size) * x }]
+    @gradients[inbound_nodes.last] = Matrix[@diff.map { |x| (-2 / @size) * x }]
   end
 end
